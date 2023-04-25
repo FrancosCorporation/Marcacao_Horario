@@ -1,0 +1,24 @@
+{
+  "name": "marcacao_horario",
+  "version": "1.0.0",
+  "description": "Esse projeto usa o [Node](https://nodejs.org) versão 18.16.0.",
+  "main": "start.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/FrancosCorporation/Marcacao_Consultas.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/FrancosCorporation/Marcacao_Consultas/issues"
+  },
+  "homepage": "https://github.com/FrancosCorporation/Marcacao_Consultas#readme",
+  "dependencies": {
+    "express": "^4.18.2",
+    "mongoose": "^7.0.5"
+  }
+}
