@@ -2,18 +2,19 @@
   "name": "marcacao_horario",
   "version": "1.0.0",
   "private": true,
-  "description": "Front do sistema de marcação de horário: serviço Node/Express com cadastro de usuários em MongoDB.",
-  "main": "start.js",
+  "description": "Sistema de marcacao de horario (front-end/API)",
+  "main": "src/start.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node src/start.js",
+    "test": "echo \"sem testes automatizados\""
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/FrancosCorporation/Marcacao_Consultas.git"
   },
   "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "author": "Rodolfo Franco (FrancosCorporation)",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/FrancosCorporation/Marcacao_Consultas/issues"
   },
