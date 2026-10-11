@@ -16,6 +16,13 @@
 
 ---
 
+> **Execução em 2026-10-11:** SEC-01, BUG-01, BUG-02, BUG-03, BUG-04,
+> SEC-02, DOC-01 e IMP-01 implementados. Também foi corrigida a conexão MongoDB,
+> que não era carregada pelo bootstrap. TEST-01 e DEVOPS-01 seguem pendentes:
+> esta rodada não adicionou nem executou testes, e o workflow precisa de credencial
+> GitHub com escopo de escrita em Actions. Foram feitos apenas checks estáticos
+> (node --check, git diff --check) e npm audit.
+
 ## 0. Como usar este documento
 
 1. Execute na ordem **P0 → P1 → P2**, respeitando as ondas da §8.
@@ -475,20 +482,20 @@ custo da falta de sincronismo.
 ## 10. Definição de pronto (DoD)
 
 **Segurança**
-- [ ] `SEC-01` — senha no Mongo começa com `$2b$`/`$2a$`; senha crua inexistente
-- [ ] `SEC-02` — 6º `POST /auth/register` do mesmo IP em 15 min → `429`
+- [x] `SEC-01` — senha hasheada com bcrypt antes de persistir e não enviada na resposta
+- [x] `SEC-02` — limite configurado para 5 cadastros por IP em 15 minutos, com resposta 429
 
 **Funcional**
-- [ ] `BUG-01` — `grep -n 'require:' src/models/User.js` sem saída; body `{}` → `400`
-- [ ] `BUG-02` — `createdAt` fabricado **não** persiste (default do schema); campos fora da allowlist ignorados
-- [ ] `BUG-03` — `GET /auth/post` não devolve mais `200 {"Ok":"Registration failed"}` (+ `Readme.md:22` atualizado)
-- [ ] `BUG-04` — log `"Listening"` correto; `grep -rn 'body-parser' src/` vazio; porta ocupada → mensagem amigável + `exit 1`
+- [x] `BUG-01` — `grep -n 'require:' src/models/User.js` sem saída; body `{}` → `400`
+- [x] `BUG-02` — `createdAt` fabricado **não** persiste (default do schema); campos fora da allowlist ignorados
+- [x] `BUG-03` — `GET /auth/post` não devolve mais `200 {"Ok":"Registration failed"}` (+ `Readme.md:22` atualizado)
+- [x] `BUG-04` — log `"Listening"` correto; `grep -rn 'body-parser' src/` vazio; porta ocupada → mensagem amigável + `exit 1`
 
 **Testes, docs e infra**
 - [ ] `TEST-01` — `npm test` roda ≥ 3 casos reais; sabotar o `required` deixa a suíte vermelha
 - [ ] `DEVOPS-01` — workflow de CI verde em push/PR
-- [ ] `DOC-01` — `repository.url` = `Marcacao_Horario.git` (bate com `git remote get-url origin`); nenhuma menção a `Marcacao_Consultas`
-- [ ] `IMP-01` — decisão A registrada; arquivos compartilhados idênticos nos dois repos; diferenças restantes são intencionais
+- [x] `DOC-01` — `repository.url` = `Marcacao_Horario.git` (bate com `git remote get-url origin`); nenhuma menção a `Marcacao_Consultas`
+- [x] `IMP-01` — decisão A registrada; arquivos compartilhados idênticos nos dois repos; diferenças restantes são intencionais
 
 **Validação final:**
 ```bash
