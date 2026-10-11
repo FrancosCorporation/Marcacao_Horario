@@ -17,6 +17,8 @@ O projeto **Marcação de Horário** nasceu para registrar usuários de um siste
 
 Os dois compartilham o mesmo modelo de usuário (`src/models/User.js`) e a mesma configuração de banco (`src/database/index.js`), então devem ser usados juntos.
 
+**Fonte canônica compartilhada:** `Marcacao_Horario_Back-End` é a referência para `src/models/User.js` e `src/database/index.js`; as cópias deste repositório devem permanecer idênticas. Este repositório conserva o papel de entrada/cadastro em `/auth/register`.
+
 ## Funcionalidades
 
 - `GET /auth/post`: rota de teste que responde `{"Ok": "Registration failed"}`.

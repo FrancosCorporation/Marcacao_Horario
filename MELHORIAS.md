@@ -7,11 +7,12 @@
 > **Este arquivo é um plano de execução.** Cada item tem ID, `arquivo:linha`, mudança exata,
 > critério de aceite e comando de verificação.
 >
-> **Nota (gêmeos):** `Marcacao_Horario_Back-End` é **quase idêntico** — `diff -r` dos dois `src/`
+> **Nota (gêmeos):** a decisão da §9 escolhe `Marcacao_Horario_Back-End` como canônico para os
+> arquivos compartilhados. O par é quase idêntico — `diff -r` dos dois `src/`
 > mostra `models/User.js` e `database/index.js` **idênticos**; `authController.js` difere **só** pela
 > rota `GET /post` (existe aqui, não existe lá); `start.js` difere (aqui: typo `Listeing`, sem
 > `EADDRINUSE`; lá: `Listening` correto + handler de porta + `indexController`). Cada gêmeo já tem
-> metade das correções do outro — decidir o canônico na §9 **antes** de corrigir.
+> metade das correções do outro; a decisão canônica foi registrada antes dos fixes.
 
 ---
 
@@ -19,9 +20,8 @@
 
 1. Execute na ordem **P0 → P1 → P2**, respeitando as ondas da §8.
 2. Ao terminar um item: marque `- [x]`, rode o **Verificação**, comite `fix(<ID>): descrição`.
-3. **Decida o repositório canônico do par ANTES do primeiro fix** (§9): `src/models/User.js` e
-   `src/database/index.js` são cópias **idênticas** nos dois repos — consertar só um recria a
-   divergência no próximo commit do outro lado.
+3. A decisão canônica foi registrada na §9 e nos dois READMEs antes dos fixes: o Back-End é a fonte
+   de `src/models/User.js` e `src/database/index.js`; manter as cópias espelhadas.
 4. Itens citam `arquivo:linha` lidos na data do header; se o arquivo mudou, recalcule a linha.
 5. **Idioma:** português.
 
@@ -68,7 +68,7 @@ efeito de escrita. O `Readme.md` descreve o par de repositórios (`Marcacao_Hora
 | SEC-02 | Sem rate limit no register | **P2** | `src/controller/authController.js:7` | — |
 | DOC-01 | `repository.url` → `Marcacao_Consultas` ≠ repo atual | **P2** | `package.json:13,19,21` | — |
 | DEVOPS-01 | Sem CI (sem `.github/`) | **P2** | *(ausente)* | TEST-01 |
-| IMP-01 | Gêmeo quase-idêntico a `Marcacao_Horario_Back-End` | **P2** | `src/` (par) | — |
+| IMP-01 | Espelhar arquivos compartilhados do repositório canônico | **P2** | `src/` (par) | Decisão registrada |
 
 **Placar: 2 P0 · 3 P1 · 5 P2 = 10 itens.**
 
@@ -283,13 +283,12 @@ efeito de escrita. O `Readme.md` descreve o par de repositórios (`Marcacao_Hora
   metadata** — a cada fix manual em um só lado o par regride (`SEC-01`/`BUG-01` corrigidos aqui e
   esquecidos lá = senha em claro e `require:` morto vivendo em produção pela metade). É a causa-raiz
   dos defects de sincronismo: manter duas cópias sem processo é dívida permanente.
-- **Mudança:** **antes de qualquer fix** executar a decisão da §9 — (A) definir o repo canônico e
-  espelhar o outro com script de sync (idealmente um passo de `diff -r` no CI, ver `DEVOPS-01`), ou
-  (B) manter os dois papéis com `models/`+`database/` em pacote compartilhado e aplicar **todos** os
-  fixes do par **no mesmo PR**. Registrar a escolha no `Readme.md` dos dois repos.
-- **Aceite:** decisão (A) ou (B) documentada; `diff -r` dos dois `src/` mostra **só** as diferenças
-  intencionais da tabela de papéis; nenhum item P0/P1 deste plano existe em um repo sem existir no
-  outro.
+- **Mudança:** aplicar a decisão (A) já registrada na §9: manter o Back-End como canônico e
+  espelhar `models/User.js` e `database/index.js` no app de entrada; automatizar a checagem em uma
+  etapa futura de CI.
+- **Aceite:** decisão documentada; os arquivos compartilhados são idênticos nos dois repos; as
+  diferenças restantes em `src/` correspondem aos papéis descritos; os fixes P0/P1 compartilhados
+  existem em ambos.
 - **Verificação:**
   ```bash
   diff -r ../Marcacao_Horario/src src | head -20
@@ -418,13 +417,13 @@ efeito de escrita. O `Readme.md` descreve o par de repositórios (`Marcacao_Hora
 7. **`SEC-02`** — rate limit no register.
 8. **`DOC-01`** — URLs e `description` do `package.json`.
 9. **`DEVOPS-01`** — CI (passa a rodar o `TEST-01`).
-10. **`IMP-01`** — sincronizar com o gêmeo **após** a decisão da §9.
+10. **`IMP-01`** — espelhar os arquivos canônicos após os fixes; a decisão já está registrada.
 
 **Dependências que não podem ser invertidas:**
 `BUG-01` antes de `BUG-02`/`TEST-01` (sem `required`, o teste de obrigatório não faz sentido) ·
 `SEC-01`+`BUG-02` juntos (tocam o mesmo trecho do controller) · `TEST-01` antes de `DEVOPS-01`
-(CI sem teste só reproduziria o `echo`) · **`IMP-01` por último** — sincronizar antes de decidir o
-canônico propaga o lado errado para o par.
+(CI sem teste só reproduziria o `echo`) · **`IMP-01` por último** — espelhar os arquivos canônicos
+depois dos fixes.
 
 ---
 
@@ -432,13 +431,13 @@ canônico propaga o lado errado para o par.
 
 | Item | Decisão | Motivo |
 |---|---|---|
-| **Qual repo do par vira canônico** | **DECIDIR ANTES DO 1º FIX** | Ver abaixo — é a decisão nº 1 deste plano. |
+| **Qual repo do par vira canônico** | **Decidido: `Marcacao_Horario_Back-End`** | Fonte dos arquivos compartilhados; este repo mantém a entrada `/auth/register`. |
 | Adicionar login/JWT | **Não (ainda)** | Não existe rota de login; escopo de feature. |
 | Upgrade Express 4 / Mongoose 7 | **Não** | Versões atuais para o uso; sem necessidade. |
 | Renomear branch `master` → `main` | **Opcional** | Branch real (local e `origin/HEAD`) é `master` — decisão de time. |
 | Reescrever em TypeScript | **Não** | 58 LOC; dívida pequena demais para justificar. |
 
-**A decisão que vem antes de tudo — destino do par:**
+**Decisão registrada antes do primeiro fix — destino do par:**
 
 O `diff -r` dos dois `src/` foi executado: `models/User.js` e `database/index.js` são
 **idênticos**; `authController.js` difere **só** pela rota `GET /post` (existe aqui, não lá);
@@ -449,13 +448,13 @@ tem metade das correções do outro**. Se `SEC-01`/`BUG-01` forem corrigidos só
 própria divergência de licenças (`MIT` × `ISC`) e de `test` (`echo` × ausente) já é a prova do
 custo da falta de sincronismo.
 
-**Decisão necessária (escolher UM antes de executar a Wave 1):**
-- **(A) Um canônico + espelho:** escolher o repo canônico (candidato natural:
-  `Marcacao_Horario_Back-End`, que já tem `EADDRINUSE`, log correto, `description` dedicada e rota
-  de teste honesta) e espelhar o outro a partir dele (script de sync no CI); **ou**
-- **(B) Dois papéis, um contrato:** manter os dois repositórios com papéis distintos (entrada ×
-  back-end), mas extrair `models/` + `database/` para pacote compartilhado e aplicar **todos** os
-  fixes do par **no mesmo PR** (checklist do §10 duplicado, um por repo).
+**Decisão adotada (A) — Back-End canônico + cópia espelhada:**
+- `Marcacao_Horario_Back-End` é canônico para `src/models/User.js` e `src/database/index.js`, pois
+  tem o bootstrap mais completo e pertence ao papel de back-end.
+- Este repositório mantém o papel de entrada/cadastro; suas duas cópias compartilhadas serão
+  sincronizadas junto aos fixes equivalentes do par.
+- A automação de sincronismo/CI permanece no item `IMP-01`; nenhum código será divergente ao final
+  desta rodada.
 
 **Riscos desta execução:**
 
@@ -468,8 +467,8 @@ custo da falta de sincronismo.
   agora vê exit code — ajuste o healthcheck/restart policy.
 - **`TEST-01` sabotagem:** o `sed` de verificação modifica `src/models/User.js` — rode em working
   tree limpo e restaure com `git checkout`.
-- **`IMP-01` adiado demais:** cada fix novo sem sincronizar aumenta o custo do diff do par; se a
-  decisão (A)/(B) demorar, **congele** mudanças nos dois lados até decidir.
+- **`IMP-01` automação pendente:** os arquivos compartilhados serão espelhados neste lote; um
+  verificador automático continua pendente para prevenir divergências futuras.
 
 ---
 
@@ -489,7 +488,7 @@ custo da falta de sincronismo.
 - [ ] `TEST-01` — `npm test` roda ≥ 3 casos reais; sabotar o `required` deixa a suíte vermelha
 - [ ] `DEVOPS-01` — workflow de CI verde em push/PR
 - [ ] `DOC-01` — `repository.url` = `Marcacao_Horario.git` (bate com `git remote get-url origin`); nenhuma menção a `Marcacao_Consultas`
-- [ ] `IMP-01` — decisão (A)/(B) da §9 registrada; `diff -r` contra o gêmeo mostra **só** as diferenças intencionais
+- [ ] `IMP-01` — decisão A registrada; arquivos compartilhados idênticos nos dois repos; diferenças restantes são intencionais
 
 **Validação final:**
 ```bash
